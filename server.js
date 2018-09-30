@@ -31,21 +31,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //express.static to serve public folder as static directory
 app.use(express.static(__dirname + "/public"));
 
-// // Database configuration with mongoose
-// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// Database configuration with mongoose
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SpaceScraper";
 
-// // Set mongoose to leverage built in JavaScript ES6 Promises
-// // Connect to the Mongo DB
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-// // test mlab connection
-// // mongoose.connect("mongodb://");
+// test mlab connection
+mongoose.connect("mongodb://");
 
 //Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/SpaceScraper", {
-    useNewUrlParser: true
-});
+// mongoose.connect("mongodb://localhost/SpaceScraper", {
+//     useNewUrlParser: true
+// });
 
 //Routes
 
