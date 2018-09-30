@@ -11,7 +11,7 @@ const ArticleSchema = new Schema({
     },
     link: {
         type: String,
-        required: true
+        required: true,
     },
     comment: {
         type: Schema.Types.ObjectId,

@@ -1,23 +1,25 @@
 //Get articles as json && display on page
-$.getJSON("/articles", function (data) {
-    console.log(data);
-    for (var i = 0; i < data.length; i++) {
-        $("#articles").append(`<p data-id= ${data[i]._id} > ${data[i].title} <br /> ${data[i].link} </p>`);
-    };
-});
+
+    // for (var i = 0; i < data.length; i++) {
+    //     $("#articles").append(`<p data-id= ${data[i]._id} > ${data[i].title} <br /> ${data[i].link} </p>`);
+    // };
+
+// $.getJSON("/articles", function (data) {
+//     console.log(data);
+// });
 
 $(document).on("click", "p", function () {
+    console.log(this);
+     $("#comment").empty();
 
-    $("#comment").empty();
-
-    const thisId = $(this).attr("data-id");
+    const thisId = $(this).attr("{{data-id}}");
 
     $.ajax({
         method: "GET",
         url: "/articles/" + thisId
     })
         .then((data) => {
-            console.log(data);
+            console.log(thisId);
 
             $("#comment").append("<h2>" + data.title + "</h2>");
 
@@ -38,7 +40,7 @@ $(document).on("click", "p", function () {
 
 $(document).on("click", "#savecomment", function () {
 
-    const thisId = $(this).attr("data-id");
+    const thisId = $(this).attr("{{data-id}}");
 
     $.ajax({
         method: "POST",

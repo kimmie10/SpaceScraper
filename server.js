@@ -13,7 +13,7 @@ const app = express();
 //express handlebars
 const exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({ defaultLayout: "main"}));
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 //Require all models
@@ -29,7 +29,7 @@ app.use(logger("dev"));
 //body-parser for form submissions
 app.use(bodyParser.urlencoded({ extended: true }));
 //express.static to serve public folder as static directory
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 // // Database configuration with mongoose
 // const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
@@ -40,7 +40,7 @@ app.use(express.static("public"));
 // mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // // test mlab connection
-// // mongoose.connect("mongodb://heroku_7zjjd6hl:Mateo123!@ds113873.mlab.com:13873/heroku_7zjjd6hl");
+// // mongoose.connect("mongodb://");
 
 //Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/SpaceScraper", {
@@ -49,11 +49,21 @@ mongoose.connect("mongodb://localhost/SpaceScraper", {
 
 //Routes
 
+app.get("/", function (req, res) {
+
+    res.redirect("/scrape")
+});
+
 //Get route for scraping NASA.gov
 app.get("/scrape", function (req, res) {
+    // db.Article.remove({}, function (err) {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //});
     axios.get("https://blogs.nasa.gov/")
         .then(function (response) {
-            console.log(response);
+            //console.log(response);
             let $ = cheerio.load(response.data);
 
             $("article h2").each(function (i, element) {
@@ -74,7 +84,7 @@ app.get("/scrape", function (req, res) {
                         return res.json(err);
                     });
             });
-            res.send("Scrape Complete");
+            res.redirect("/articles");
         });
 });
 
@@ -83,7 +93,7 @@ app.get("/articles", function (req, res) {
     db.Article.find({})
         .then(function (dbArticle) {
 
-            res.json(dbArticle);
+            res.render("index", { data: dbArticle });
         })
         .catch(function (err) {
 
@@ -96,8 +106,8 @@ app.get("/articles/:id", function (req, res) {
 
         .populate("comment")
         .then(function (dbArticle) {
-
-            res.json(dbArticle);
+            //console.log(dbArticle);
+            res.render("index", { data: dbArticle });
         })
         .catch(function (err) {
 
@@ -114,8 +124,8 @@ app.post("/articles/:id", function (req, res) {
             return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
         })
         .then(function (dbArticle) {
-
-            res.json(dbArticle)
+            res.render("index", { data: dbArticle });
+            //res.json(dbArticle)
         })
         .catch(function (err) {
 

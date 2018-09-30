@@ -1,0 +1,35 @@
+#title {
+    padding: 5px;
+    font-size: x-large;
+}
+
+#url {
+    padding: 5px;
+}
+
+#comment {
+    float: right;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#container {
+    background-color: black;
+    color: white;
+    padding: 30px;
+}
+
+#comment {
+    display: inline-block;
+    margin-right: 20rem;
+    background-color: burlywood;
+}
+
+#titleinput, #bodyinput {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 5px;
+}

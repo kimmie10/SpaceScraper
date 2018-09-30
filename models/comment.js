@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const CommentSchema = new Schema({
     title: String,
     body: String,
-    //date: {type: Date, default: Date.now}
+    date: {type: Date, default: Date.now}
 });
 
 //Create model using schema and model method

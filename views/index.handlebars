@@ -1,0 +1,21 @@
+<div id="wrapper">
+    <header id="container">
+        <h1>Space Scraper</h1>
+        <h2><i>Scraping NASA Blogs Home</i></h2>
+    </header>
+    <div id="main">
+    {{#each data}}
+    <p id="title">{{title}}</p>
+    <a id="url">{{link}}</a>
+    <div id="comment">{{comment}}</div>
+    {{/each}}
+
+    </div>
+    {{!-- {{#if comment}}
+
+    {{else}}
+
+    {{/if}} --}}
+    {{!-- <div id="articles"></div>
+    <div id="comment"></div> --}}
+</div>
