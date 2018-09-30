@@ -42,13 +42,8 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 // test mlab connection
 mongoose.connect("mongodb://");
 
-//Connect to the Mongo DB
-// mongoose.connect("mongodb://localhost/SpaceScraper", {
-//     useNewUrlParser: true
-// });
-
 //Routes
-
+//redirect to scrap on load
 app.get("/", function (req, res) {
 
     res.redirect("/scrape")
@@ -88,6 +83,7 @@ app.get("/scrape", function (req, res) {
         });
 });
 
+//Get all articles from db and render
 app.get("/articles", function (req, res) {
 
     db.Article.find({})
@@ -101,13 +97,15 @@ app.get("/articles", function (req, res) {
         });
 });
 
+//Get one article id and populate comment based on id
 app.get("/articles/:id", function (req, res) {
-    db.Article.findOne({ _id: req.params.id })
+    db.Article.findOne({ _id: req.params.ObjectId })
 
         .populate("comment")
         .then(function (dbArticle) {
-            //console.log(dbArticle);
-            res.render("index", { data: dbArticle });
+            console.log(dbArticle);
+            res.json(dbArticle);
+            //res.render("index", { data: dbArticle });
         })
         .catch(function (err) {
 
@@ -115,17 +113,19 @@ app.get("/articles/:id", function (req, res) {
         });
 });
 
+//Create and update comment
 app.post("/articles/:id", function (req, res) {
 
     console.log(req.body);
     db.Comment.create(req.body)
         .then(function (dbComment) {
 
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+            return db.Article.findOneAndUpdate({ _id: req.params.ObjectId }, { comment: dbComment.ObjectId }, { new: true });
+            console.log("Comment" + dbComment);
         })
         .then(function (dbArticle) {
-            res.render("index", { data: dbArticle });
-            //res.json(dbArticle)
+            //res.render("index", { data: dbArticle });
+            res.json(dbArticle)
         })
         .catch(function (err) {
 

@@ -10,24 +10,26 @@
 
 $(document).on("click", "p", function () {
     console.log(this);
-     $("#comment").empty();
+    // $("#comment").empty();
+$("#comment").show();
+    //const thisId = $(this).attr("{{data-id}}");
+    //const objectId = 
 
-    const thisId = $(this).attr("{{data-id}}");
 
     $.ajax({
         method: "GET",
-        url: "/articles/" + thisId
+        url: "/articles/" //+ objectId
     })
         .then((data) => {
-            console.log(thisId);
+            console.log(data);
 
-            $("#comment").append("<h2>" + data.title + "</h2>");
+            $("#comment").append("<h2>" + this.innerHTML + "</h2>");
 
             $("#comment").append("<input id='titleinput' name='title' >");
 
             $("#comment").append("<textarea id='bodyinput' name='body'></textarea>");
 
-            $("#comment").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+            $("#comment").append("<button id='savecomment'>Save Comment</button>");
 
             if (data.comment) {
 
@@ -36,11 +38,13 @@ $(document).on("click", "p", function () {
                 $("#bodyinput").val(data.comment.body);
             }
         });
+    
 });
 
 $(document).on("click", "#savecomment", function () {
 
     const thisId = $(this).attr("{{data-id}}");
+    $("#comment").hide();
 
     $.ajax({
         method: "POST",
@@ -53,8 +57,6 @@ $(document).on("click", "#savecomment", function () {
     })
 
         .then(function (data) {
-
-            console.log(data);
 
             $("#comment").empty();
         });

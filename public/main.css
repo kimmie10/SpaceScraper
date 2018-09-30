@@ -22,9 +22,8 @@ h1, h2 {
 }
 
 #comment {
-    display: inline-block;
-    margin-right: 20rem;
     background-color: burlywood;
+    padding: 5px;
 }
 
 #titleinput, #bodyinput {
