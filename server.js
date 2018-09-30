@@ -56,11 +56,11 @@ app.get("/", function (req, res) {
 
 //Get route for scraping NASA.gov
 app.get("/scrape", function (req, res) {
-    // db.Article.remove({}, function (err) {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //});
+     db.Article.remove({}, function (err) {
+         if (err) {
+             console.log(err);
+         }
+    });
     axios.get("https://blogs.nasa.gov/")
         .then(function (response) {
             //console.log(response);
