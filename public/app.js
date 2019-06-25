@@ -56,10 +56,10 @@ $(document).on("click", "#savecomment", function () {
         }
     })
 
-        .then(function (data) {
+        // .then(function (data) {
 
-            $("#comment").empty();
-        });
+        //     $("#comment").empty();
+        // });
 
 
     $("#titleinput").val("");
