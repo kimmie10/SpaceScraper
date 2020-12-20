@@ -38,12 +38,9 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SpaceScraper
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-//mongoose.connect('mongodb://localhost:27017/spacescraper', {useNewUrlParser: true});
 
 // test mlab connection
-//mongoose.connect("mongodb://");
+mongoose.connect("mongodb://");
 
 //Routes
 //redirect to scrap on load
@@ -60,11 +57,11 @@ app.get("/scrape", function (req, res) {
     //      }
     // });
     axios.get("https://blogs.nasa.gov/")
-        .then((response) => {
-            console.log(response.data);
-            const $ = cheerio.load(response.data);
+        .then(function (response) {
+            //console.log(response);
+            let $ = cheerio.load(response.data);
 
-            $("article.header.h2").each(function (/*i, element*/) {
+            $("article h2").each(function (i, element) {
                 let result = {};
 
                 result.title = $(this)
@@ -84,15 +81,12 @@ app.get("/scrape", function (req, res) {
             });
             res.redirect("/articles");
         });
-        // .catch(error => {
-        //     console.log(error);
-        // });
 });
 
 //Get all articles from db and render
 app.get("/articles", function (req, res) {
 
-    db.Article.updateMany({})
+    db.Article.find({})
         .then(function (dbArticle) {
 
             res.render("index", { data: dbArticle });
