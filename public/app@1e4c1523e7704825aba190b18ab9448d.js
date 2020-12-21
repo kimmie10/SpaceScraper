@@ -18,7 +18,7 @@ $("#comment").show();
 
     $.ajax({
         method: "GET",
-        url: "/articles/"
+        url: "/articles/" //+ objectId
     })
         .then((data) => {
             console.log(data);
